@@ -1,7 +1,5 @@
-import React from 'react';
 import { Star, StarOff, Trash2 } from 'lucide-react';
 import { SavedQuery } from '../types';
-import { Button } from './ui/button';
 
 interface SavedQueriesSidebarProps {
   savedQueries: SavedQuery[];

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2, Clock, RefreshCw } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Button } from '../components/ui/button';
-import { QueryHistoryItem } from '../types';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { historyAPI } from '../services/api';
 

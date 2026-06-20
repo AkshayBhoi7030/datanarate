@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Database, Table, Key, Link2 } from 'lucide-react';
 import { schemaAPI } from '../services/api';
-import { TableSchema, Column } from '../types';
 
 export function SchemaExplorer() {
   const [selectedTable, setSelectedTable] = useState<string | null>(null);
@@ -50,8 +49,8 @@ export function SchemaExplorer() {
                   key={table.table_name}
                   onClick={() => setSelectedTable(table.table_name)}
                   className={`w-full text-left px-3 py-2 rounded-lg transition-colors ${selectedTable === table.table_name
-                      ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'
-                      : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+                    ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400'
+                    : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
                     }`}
                 >
                   {table.table_name}
