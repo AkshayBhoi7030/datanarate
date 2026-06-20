@@ -10,6 +10,9 @@ line-length = 100
 testpaths = ["backend/tests"]
 pythonpath = ["backend"]
 
+[tool.vercel]
+entrypoint = "backend.app.main:app"
+
 [tool.poetry]
 name = "datanarrate"
 version = "1.0.0"
