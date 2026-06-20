@@ -9,3 +9,12 @@ line-length = 100
 [tool.pytest.ini_options]
 testpaths = ["backend/tests"]
 pythonpath = ["backend"]
+
+[tool.poetry]
+name = "datanarrate"
+version = "1.0.0"
+description = "AI-Powered Natural Language Analytics Platform"
+authors = ["Your Name"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
