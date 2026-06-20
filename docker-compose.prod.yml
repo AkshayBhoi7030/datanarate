@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: datanarrate-postgres-prod
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    container_name: datanarrate-redis-prod
+    image: redis:7-alpine
+    volumes:
+      - redis_data_prod:/data
+      - ./docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  backend:
+    container_name: datanarrate-backend-prod
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile.prod
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY}
+      ENVIRONMENT: production
+      OLLAMA_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; response = httpx.get('http://localhost:8000/health'); assert response.status_code == 200"]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+    restart: unless-stopped
+
+  frontend:
+    container_name: datanarrate-frontend-prod
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile.prod
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data_prod:
+  redis_data_prod:
