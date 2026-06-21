@@ -7,6 +7,7 @@ import {
   History,
   Sun,
   Moon,
+  Sparkles,
 } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import { cn } from '../utils';
@@ -22,6 +23,11 @@ const navItems: NavItem[] = [
     path: '/',
     label: 'Dashboard',
     icon: LayoutDashboard,
+  },
+  {
+    path: '/designer',
+    label: 'Database Designer',
+    icon: Sparkles,
   },
   {
     path: '/schema',

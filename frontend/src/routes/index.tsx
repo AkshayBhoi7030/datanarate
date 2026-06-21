@@ -4,6 +4,7 @@ import { Dashboard } from '../pages/Dashboard';
 import { SchemaExplorer } from '../pages/SchemaExplorer';
 import { History } from '../pages/History';
 import { Settings } from '../pages/Settings';
+import { DatabaseDesigner } from '../pages/DatabaseDesigner';
 
 export const router = createBrowserRouter([
   {
@@ -11,6 +12,14 @@ export const router = createBrowserRouter([
     element: (
       <MainLayout>
         <Dashboard />
+      </MainLayout>
+    ),
+  },
+  {
+    path: '/designer',
+    element: (
+      <MainLayout>
+        <DatabaseDesigner />
       </MainLayout>
     ),
   },
